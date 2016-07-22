@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
+    <style>
+        input.ng-dirty.ng-invalid {
+            box-shadow: 0px 0px 2px red;
+        }
+
+    </style>
+</head>
+<body ng-controller="ContactAddCtrl">
+    <form name="form" ng-submit="ajouter()" novalidate>
+        <div>
+            Prénom : <input name="prenom" ng-model="contact.prenom" required>
+        </div>
+        <div ng-show="form.$submitted || form.prenom.$dirty">
+            <div ng-show="form.prenom.$error.required">Le prénom est obligatoire</div>
+        </div>
+        <div>
+            Nom : <input ng-model="contact.nom" required>
+        </div>
+        <div>
+            <button type="submit">+</button>
+        </div>
+    </form>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            var app = angular.module('app', ['ngResource']);
+
+            app.factory('Contact', function($resource) {
+                return $resource('http://localhost:3000/api/v1/contacts/:contactId', {contactId:'@_id'});
+            });
+
+            app.controller('ContactAddCtrl', function ($scope, Contact) {
+                $scope.ajouter = function() {
+                    var contact = new Contact($scope.contact);
+
+                    contact.$save(function() {
+
+                    });
+                };
+            });
+        }());
+    </script>
+</body>
+</html>

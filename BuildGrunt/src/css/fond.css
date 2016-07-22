@@ -1,0 +1,8 @@
+body {
+    background-color: beige;
+    transition: all 200ms ease;
+}
+
+body.alternate {
+    background-color: aqua;
+}

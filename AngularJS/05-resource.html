@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
+</head>
+<body ng-controller="ContactCtrl">
+    <table>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Actions</th>
+        </tr>
+        <tr ng-repeat="contact in contacts" ng-cloak>
+            <td>{{contact.prenom}}</td>
+            <td>{{contact.nom}}</td>
+            <td>
+                <button ng-click="supprimer($index)">-</button>
+            </td>
+        </tr>
+    </table>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            var app = angular.module('app', ['ngResource']);
+
+            app.factory('Contact', function($resource) {
+                return $resource('http://localhost:3000/api/v1/contacts/:contactId', {contactId:'@_id'});
+            });
+
+            app.controller('ContactCtrl', function ($scope, Contact) {
+                $scope.contacts = Contact.query();
+
+                $scope.supprimer = function(i) {
+                    $scope.contacts[i].$delete(function() {
+                        $scope.contacts.splice(i, 1);
+                    });
+
+                };
+            });
+        }());
+    </script>
+</body>
+</html>

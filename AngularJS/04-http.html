@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="ContactCtrl">
+    <table>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+        </tr>
+        <tr ng-repeat="contact in contacts">
+            <td>{{contact.prenom}}</td>
+            <td>{{contact.nom}}</td>
+        </tr>
+    </table>
+    <script src="bower_components/angular/angular.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            var app = angular.module('app', []);
+
+            app.config(['$httpProvider', function($httpProvider) {
+                $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+            }]);
+
+            app.controller('ContactCtrl', function ($scope, $http) {
+                $scope.contacts = [];
+
+                $http.get('http://localhost:3000/api/v1/contact')
+                    .then(function (res) {
+                        $scope.contacts = res.data;
+                    });
+            });
+        }());
+    </script>
+</body>
+</html>

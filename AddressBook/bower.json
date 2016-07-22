@@ -1,0 +1,22 @@
+{
+  "name": "addressbook",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/client/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-resource": "^1.5.7",
+    "angular-route": "^1.5.7",
+    "bootstrap": "^3.3.6",
+    "angular": "^1.5.7",
+    "jquery": "^2.2.4"
+  }
+}
